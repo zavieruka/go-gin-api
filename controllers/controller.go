@@ -1,13 +1,14 @@
 package controllers
 
 import (
+	"go-gin-api/models"
+
 	"github.com/gin-gonic/gin"
 )
 
 func ShowStudents(c *gin.Context) {
-	students := []string{"Alice", "Bob", "Charlie"}
 	c.JSON(200, gin.H{
-		"students": students,
+		"students": models.Students,
 	})
 }
 
