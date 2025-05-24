@@ -17,6 +17,7 @@ func HandleRequest() {
 	}
 
 	r.GET("/students", controllers.ShowStudents)
+	r.GET("/students/:id", controllers.ShowStudentById)
 	r.GET("/:name", controllers.Hello)
 	r.POST("/students", controllers.CreateStudent)
 

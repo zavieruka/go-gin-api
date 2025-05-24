@@ -9,9 +9,19 @@ import (
 )
 
 func ShowStudents(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"students": models.Students,
-	})
+	var students []models.Student
+	database.DB.Find(&students)
+	c.JSON(http.StatusOK, students)
+}
+
+func ShowStudentById(c *gin.Context) {
+	var student models.Student
+	id := c.Param("id")
+	if err := database.DB.First(&student, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Student not found"})
+		return
+	}
+	c.JSON(http.StatusOK, student)
 }
 
 func Hello(c *gin.Context) {
