@@ -50,3 +50,31 @@ func CreateStudent(c *gin.Context) {
 	database.DB.Create(&aluno)
 	c.JSON(http.StatusOK, aluno)
 }
+
+func DeleteStudent(c *gin.Context) {
+	var student models.Student
+	id := c.Param("id")
+	if err := database.DB.First(&student, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Student not found"})
+		return
+	}
+	database.DB.Delete(&student)
+	c.JSON(http.StatusOK, gin.H{"message": "Student deleted successfully"})
+}
+
+func UpdateStudent(c *gin.Context) {
+	var student models.Student
+	id := c.Param("id")
+	if err := database.DB.First(&student, id).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Student not found"})
+		return
+	}
+
+	if err := c.ShouldBindJSON(&student); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	database.DB.Save(&student)
+	c.JSON(http.StatusOK, student)
+}
