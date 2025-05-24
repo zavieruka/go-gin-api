@@ -18,6 +18,7 @@ func HandleRequest() {
 
 	r.GET("/students", controllers.ShowStudents)
 	r.GET("/:name", controllers.Hello)
+	r.POST("/students", controllers.CreateStudent)
 
 	r.Run(":8000")
 }

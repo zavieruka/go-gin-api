@@ -1,7 +1,9 @@
 package controllers
 
 import (
+	"go-gin-api/database"
 	"go-gin-api/models"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -26,4 +28,15 @@ func Hello(c *gin.Context) {
 		"message": "Hello " + name + "!",
 	})
 
+}
+
+func CreateStudent(c *gin.Context) {
+	var aluno models.Student
+	if err := c.ShouldBindJSON(&aluno); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"error": err.Error()})
+		return
+	}
+	database.DB.Create(&aluno)
+	c.JSON(http.StatusOK, aluno)
 }
